@@ -6,34 +6,6 @@ const PatientSchema = new Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String,
-        required: true
-    },
-    allergies : {
-        type: String,
-        required: true
-    },
-    phone : {
-        type: String,
-        required: true
-    },
-    weight: {
-        type: String,
-        required: true
-    },
-    dob: {
-        type: String,
-        required: true
-    },
-    age: {
-        type : String,
-        required : true
-    },
-    sex: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true
@@ -50,6 +22,10 @@ const PatientSchema = new Schema({
         type : Boolean,
         required: true
     },
+    phone : {
+        type : String,
+        required: true,
+    },
     prescription : [{
         prescriptionNo: {
             type: String
@@ -57,19 +33,13 @@ const PatientSchema = new Schema({
         doctor : {
             type: String
         },
-        licenseNo :{
+        licenseNo : {
             type: String
         },
-        test: 
-        {type: String},
-        disease: {
+        comment : {
             type: String
         },
-        medicines:
-            {type: String},
-        comments: 
-        {type: String }
     }]
 });
 
-module.exports = Patient = mongoose.model("patient",PatientSchema);
+module.exports = Patient = mongoose.model("patient", PatientSchema);

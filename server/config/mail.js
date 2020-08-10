@@ -1,4 +1,4 @@
 module.exports = {
-    email: "",
-    pass: ""
-  };
+    email: process.env.EMAIL ,
+    pass: process.env.PASS 
+  };                                                                 

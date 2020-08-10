@@ -3,19 +3,20 @@ var {email,pass} = require('../config/mail');
 
 module.exports.mailverify = (to,otp)=>{
     var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: 'us2.smtp.mailhostbox.com',
+        port: 25,
         secure: false,
         auth: {
-            type: "login",
             user: email,
             pass: pass
-        }
+        },
+        tls: { secureProtocol: "TLSv1_method" }
     });
     var mail = {
         from: email,
         to: to,
         subject: "verify account",
-         text: `Enter this otp to confirm validation of your account, \nE-mail : ${to}\nOTP : ${otp}` 
+        text: `Click this link to confirm validation of your account,\n https://techmaters.herokuapp.com/verify?email=${to}&otp=${otp} \n\nTeam Techmate \nHappy Coding!!` 
     };
     transporter.sendMail(mail,function(err,info){
         if(err){

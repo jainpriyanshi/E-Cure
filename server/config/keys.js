@@ -1,4 +1,4 @@
 module.exports = {
-    mongoURI: "mongodb://localhost:27017",
-    secretOrKey: "pass"
-  };
+    mongoURI: process.env.MONGOURI || "mongodb://localhost:27017",
+    secretOrKey:  "secret"
+    };
