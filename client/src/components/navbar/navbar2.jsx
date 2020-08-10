@@ -42,7 +42,6 @@ class Navbar2 extends Component {
               }}
               onClick={this.onLogoutClick}
               class="btn btn-outline-secondary">
-              >
               Logout
             </button>
             </Toolbar>

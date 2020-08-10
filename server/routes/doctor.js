@@ -7,6 +7,7 @@ const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 
 const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
+  console.log(data);
     let errors = {};
     data.name = !isEmpty(data.name) ? data.name : "";
     data.email = !isEmpty(data.email) ? data.email : "";
@@ -14,9 +15,9 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
     data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : "";
     data.address = !isEmpty(data.address) ? data.address : "";
     data.phone = !isEmpty(data.phone) ? data.phone : "";
-    data.specialization = !isEmpty(data.specialisation) ? data.specialization : "";
+    data.specialization = !isEmpty(data.specialization) ? data.specialization : "";
     data.password2 = !isEmpty(data.password2) ? data.password2 : "";
-    data.hospital_name = !isEmpty(data.hospital_name) ? hospital_name : "";
+    data.hospital_name = !isEmpty(data.hospital_name) ? data.hospital_name : "";
 
     
     if (Validator.isEmpty(data.name)) {
@@ -124,9 +125,9 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
       router.post("/register", (req, res) => {
         console.log(req.body);
         const { errors, isValid } = ValidateDoctorRegisterInput(req.body);
-        if (!isValid) {
-          return res.status(400).json(errors);
-        }
+       // if (!isValid) {
+        //  return res.status(400).json(errors);
+       // }
         Doctor.findOne({ email: req.body.email }).then(doctor => {
           if (doctor) {
             return res.status(400).json({ email: "Email already exists" });
@@ -143,7 +144,7 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               reg_num: req.body.reg_num,
               phone: req.body.phone,
               specialization: req.body.specialization,
-              hospital_name : "IIT Jodh",
+              hospital_name : req.body.hospital_name,
               mon: req.body.mon,
               tues: req.body.tues,
               wed: req.body.wed,
@@ -190,8 +191,9 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               const payload = {
                 id: doctor.id,
                 name: doctor.name,
-                licenceNo: doctor.licenseNo
-                
+                reg_num: doctor.reg_num,
+                doctor: true,
+                patient: false,
               };
               jwt.sign(
                 payload,

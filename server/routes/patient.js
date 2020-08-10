@@ -140,7 +140,7 @@ const ValidateLoginInput = function validateLoginInput(data) {
             newUser.password = hash;
             newUser
               .save()
-              .then(user => res.json(user), require('../validations/mail').mailverify(req.body.email,otp))
+              .then(user => res.json(user), require('../validations/login').mailverify(req.body.email,otp))
               .catch(err => console.log(err));
           });
         });
@@ -169,8 +169,9 @@ const ValidateLoginInput = function validateLoginInput(data) {
           const payload = {
             id: user.id,
             name: user.name,
-            email: user.email
-            
+            email: user.email,
+            doctor: false,
+            patient: true,
           };
           jwt.sign(
             payload,
