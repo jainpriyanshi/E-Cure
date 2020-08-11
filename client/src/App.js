@@ -18,6 +18,8 @@ import DoctorVerify from './components/doctorauth/verify';
 import Navbar from './components/navbar/navbar';
 import PrivateNavbar from './components/privateroutes/PrivateNavbar'
 
+import Map from './components/landing/map';
+
 
 if (localStorage.jwtToken) {
 
@@ -43,6 +45,7 @@ class App extends Component {
           <Switch>
               <PrivateNavbar  component={Navbar} />
             </Switch>  
+            <Route exact path="/" component={Map} />
             <Route exact path="/patient/register" component={PatientRegister} />
             <Route exact path="/patient/verify" component={PatientVerify} />
             <Route exact path="/patient/login" component={PatientLogin} />
