@@ -8,7 +8,7 @@ const AppointmentSchema = new Schema({
     },
     patient_id: {
         type: Schema.Types.ObjectId,
-        required: true
+        // required: true
     },
     status: {
         type: String,

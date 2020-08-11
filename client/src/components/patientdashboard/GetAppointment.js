@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import {useHistory} from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -39,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: 'none',
       boxShadow: 'none',
       textTransform: 'none',
+  },
+  Button: {
+    // padding: 100
+    margin: 10,
+    backgroundColor: '#008000'
+    // backgroundColor: '#ffffff'
   }
 }));
 
@@ -46,27 +55,161 @@ const useStyles = makeStyles((theme) => ({
 
 const GetAppointment = () => {
     const classes = useStyles();
-  const [age, setAge] = React.useState('');
+    const history = useHistory();
+  const [speciality, setSpeciality] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [days, setDays] = React.useState('');
+  const [ailment, setAilment] = React.useState('');
+
+  const [doctorSpecialities, setDoctorSpecialities] = useState([]);
+  const [doctorName, setDoctorName] = useState([]);
+  const [doctorDays, setDoctorDays] = useState([]);
+
+  useEffect(() => {
+    
+    const sendingRequest = async () => {
+      try{
+        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
+          // headers: {
+            // "Authorization": localStorage.getItem("accessToken")
+          // }
+        });
+        const responseData = await response.json();
+        // console.log(responseData)
+        setDoctorSpecialities(Object.keys(responseData.response))
+      } catch(err){
+        console.log(err);
+      }
+    }
+    sendingRequest();
+
+    const sendingRequest2 = async () => {
+      try{
+        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
+          // headers: {
+            // "Authorization": localStorage.getItem("accessToken")
+          // }
+        });
+        const responseData = await response.json();
+        // console.log(responseData)
+        Object.entries(responseData.response).map(mainitem => {
+
+          setDoctorName( item => {
+            return (
+              [
+                ...item, {
+                  id: mainitem[0],
+                  value: mainitem[1]
+                }
+              ]
+            )
+          } )
+          
+        })
+        // setDoctorName(responseData.response);
+      } catch(err){
+        console.log(err);
+      }
+    }
+    sendingRequest2();
+
+    const sendingRequest3 = async () => {
+      try{
+        const response = await fetch(`http://localhost:3000/doctor/getDays`, {
+          // headers: {
+            // "Authorization": localStorage.getItem("accessToken")
+          // }
+        });
+        const responseData = await response.json();
+        console.log("f",responseData)
+        Object.entries(responseData.response).map(mainitem => {
+
+          setDoctorDays( item => {
+            return (
+              [
+                ...item, {
+                  id: mainitem[0],
+                  value: mainitem[1]
+                }
+              ]
+            )
+          } )
+          
+        })
+        // setDoctorDays(responseData.doctorDays);
+      } catch(err){
+        console.log(err);
+      }
+    }
+    sendingRequest3();
+
+
+
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(doctorDays)
+  // }, [doctorDays])
+
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSpeciality(event.target.value);
+  };
+  const handleChange2 = (event) => {
+    setName(event.target.value);
+  };
+  const handleChange3 = (event) => {
+    setDays(event.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+      const response = await fetch(`http://localhost:3000/patient/postAppointment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // "Authorization": localStorage.getItem("accessToken")
+        },
+        body: JSON.stringify({
+          name: name,
+          status: "Under Consideration",
+          specialization: speciality,
+          day:days,
+          ailment:ailment
+        })
+      });
+      const responseData = await response.json();
+      console.log("a",responseData);
+      if(responseData.success===false)
+      throw Error
+      history.push('/patient/dashboard');
+    } catch(err){
+      console.log(err);
+    }
+    // setDays(event.target.value);
   };
 
     return (
+        <React.Fragment>
+        <Toolbar/>
         <Grid container>
             <Grid item xs={12} className={classes.Form}>
+            <form onSubmit={handleSubmit}>
             <div className={classes.FormContent}>
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Doctors Specialties</InputLabel>
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
+                value={speciality}
                 onChange={handleChange}
                 >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                { doctorSpecialities.map( (item) => {
+                  return (
+                    <MenuItem value={item}>{item}</MenuItem>    
+                  )
+                } )}
                 </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -74,31 +217,36 @@ const GetAppointment = () => {
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
+                value={name}
+                onChange={handleChange2}
                 >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                  speciality && doctorName.filter(item => item.id === speciality).map(filteredvalue => { return filteredvalue.value.map( item => {return <MenuItem value={item}>{item}</MenuItem>} ) })
+                }
                 </Select>
             </FormControl>
-            <TextField id="standard-basic" label="Ailment" className={classes.TextInput}/>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Free Slots</InputLabel>
+                <InputLabel id="demo-simple-select-label">Doctors Days</InputLabel>
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
+                value={days}
+                onChange={handleChange3}
                 >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                  name && doctorDays.filter(item => item.id === name).map(filteredvalue => { return filteredvalue.value.map( item => {return <MenuItem value={item}>{item}</MenuItem>} ) })
+                }
                 </Select>
             </FormControl>
+            <TextField id="standard-basic" label="Ailment" className={classes.TextInput} onChange={(e)=>{setAilment(e.target.value)}} />
+            <Button variant="contained" className={classes.Button} type="submit" >
+                Get Appointment
+            </Button>
             </div>
+            </form>
             </Grid>
         </Grid>
+        </React.Fragment>
     )
 }
 

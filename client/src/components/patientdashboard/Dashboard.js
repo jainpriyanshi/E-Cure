@@ -68,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
     },
     Button: {
         // padding: 100
-        margin: 20
+        margin: 20,
+        backgroundColor: '#008000'
         // backgroundColor: '#ffffff'
     }
   }));
@@ -99,7 +100,8 @@ const Application = (props) => {
     return (
       
         <div className={classes.root}>
-                <Button variant="contained" color="primary" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
+                <Toolbar/>
+                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
                 Get Appointment
                 </Button>
                 <Grid container className={classes.main}>
@@ -115,14 +117,6 @@ const Application = (props) => {
                           </AppBar>
                         </ElevationScroll>
                         {/* <Container>
-                          {!data.section1.length && !data.section2.length && !data.section3.length && !data.section4.length && !data.section5.length &&
-                          !data.section6.length ? 
-                          <img
-                            className={classes.emptyStatesApplication}
-                            src='/images/empty-states.svg'
-                            alt='emptyState'
-                          />
-                          :
                           <Box my={2} overflow="auto">
                             {data.section1.map(item => {
                               if(interviewNameSubmit)
@@ -131,10 +125,8 @@ const Application = (props) => {
                                 return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
                               } else
                                 return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
-                            })}
-                                                           
+                            })}                                                           
                           </Box>
-                          }
                         </Container> */}
                       </React.Fragment>
                     </Grid>
@@ -150,28 +142,6 @@ const Application = (props) => {
                             </Toolbar>
                           </AppBar>
                         </ElevationScroll>
-                        {/* <Container>
-                          {!data.section1.length && !data.section2.length && !data.section3.length && !data.section4.length && !data.section5.length &&
-                          !data.section6.length ? 
-                          <img
-                            className={classes.emptyStatesApplication}
-                            src='/images/empty-states.svg'
-                            alt='emptyState'
-                          />
-                          :
-                          <Box my={2} overflow="auto">
-                            {data.section1.map(item => {
-                              if(interviewNameSubmit)
-                              {
-                                if(item.name.toLowerCase().includes(interviewNameSubmit.toLowerCase()))
-                                return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
-                              } else
-                                return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
-                            })}
-                                                           
-                          </Box>
-                          }
-                        </Container> */}
                       </React.Fragment>
                     </Grid>
                     <Grid item xs={12} lg={4} >
@@ -185,28 +155,6 @@ const Application = (props) => {
                             </Toolbar>
                           </AppBar>
                         </ElevationScroll>
-                        {/* <Container>
-                          {!data.section1.length && !data.section2.length && !data.section3.length && !data.section4.length && !data.section5.length &&
-                          !data.section6.length ? 
-                          <img
-                            className={classes.emptyStatesApplication}
-                            src='/images/empty-states.svg'
-                            alt='emptyState'
-                          />
-                          :
-                          <Box my={2} overflow="auto">
-                            {data.section1.map(item => {
-                              if(interviewNameSubmit)
-                              {
-                                if(item.name.toLowerCase().includes(interviewNameSubmit.toLowerCase()))
-                                return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
-                              } else
-                                return <ApplicationCard id={item.id} name={item.name} location={item.location} owner={item.owner} created={item.created} mobile={item.mobile} interview={item.interview} candidates={item.candidates} MenuItem={["Schedule interview","Call again","Reject"]}/> 
-                            })}
-                                                           
-                          </Box>
-                          }
-                        </Container> */}
                       </React.Fragment>
                     </Grid>
 

@@ -282,31 +282,23 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
       })
     });
 
-
-
-
-
-
-
     router.get('/getAllAppointment', (req,res) => {
       const token = req.headers['x-access-token'].split(' ')[1];
       try {
         if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
 
-         jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-             if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-          console.log(decoded);
-          Appointment.find({doctor_id : decoded.id}).then (data => {
-
+          jwt.verify(token, keys.secretOrKey, (err, decoded) => {
+            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            console.log(decoded);
+            Appointment.find({doctor_id : decoded.id}).then (data => {
             return res.json({appointment: data})
           })
-            });
-        
-     }catch (error) {
+      }); 
+     }
+     catch (error) {
         console.log(error.message);
       }
     });
-
-   
+    
     module.exports = router;
 
