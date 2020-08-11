@@ -97,6 +97,7 @@ const ValidateLoginInput = function validateLoginInput(data) {
 
   const User = require ("../models/Patient");
 const Appointment = require("../models/Appointment");
+const { route } = require("./doctor");
 
   router.post("/verify", (req, res) => {
     
@@ -219,6 +220,25 @@ const Appointment = require("../models/Appointment");
       res.json({success: false})
      })
      })
+  });
+
+  router.get('/getAllAppointment', (req,res) => {
+    const token = req.headers['x-access-token'].split(' ')[1];
+    try {
+      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
+
+       jwt.verify(token, keys.secretOrKey, (err, decoded) => {
+           if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+        console.log(decoded);
+        Appointment.find({patient_id : decoded.id}).then (data => {
+          return res.json({appointment: data})
+        })
+    });
+      
+   }
+   catch (error) {
+      console.log(error.message);
+    }
   });
 
   module.exports = router;
