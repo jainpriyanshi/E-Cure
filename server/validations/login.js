@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 var {email,pass} = require('../config/mail');
 
-module.exports.otpupdate = (to,otp)=>{
+module.exports.mailverify = (to,otp)=>{
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         secure: false,

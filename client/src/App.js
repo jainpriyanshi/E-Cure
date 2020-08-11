@@ -10,6 +10,8 @@ import store from "./store";
 import PatientRegister from "./components/patientauth/register";
 import PatientLogin from "./components/patientauth/login";
 import PatientVerify from './components/patientauth/verify';
+import PatientDashboard from './components/patientdashboard/Dashboard';
+import PatientGetAppointment from './components/patientdashboard/GetAppointment';
 
 import DoctorRegister from "./components/doctorauth/register";
 import DoctorLogin from "./components/doctorauth/login";
@@ -46,6 +48,9 @@ class App extends Component {
             <Route exact path="/patient/register" component={PatientRegister} />
             <Route exact path="/patient/verify" component={PatientVerify} />
             <Route exact path="/patient/login" component={PatientLogin} />
+            <Route exact path="/patient/dashboard" component={PatientDashboard} />
+            <Route exact path="/patient/getAppointment" component={PatientGetAppointment} />
+
             <Route exact path="/doctor/register" component={DoctorRegister} />
             <Route exact path="/doctor/verify" component={DoctorVerify} />
             <Route exact path="/doctor/login" component={DoctorLogin} />

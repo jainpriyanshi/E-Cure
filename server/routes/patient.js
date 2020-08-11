@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
+const appointment = require('../models/Appointment');
+const doctors = require('../models/Doctor');
 
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
@@ -94,6 +96,7 @@ const ValidateLoginInput = function validateLoginInput(data) {
 
 
   const User = require ("../models/Patient");
+const Appointment = require("../models/Appointment");
 
   router.post("/verify", (req, res) => {
     
@@ -196,5 +199,26 @@ const ValidateLoginInput = function validateLoginInput(data) {
     });
   });
 
+  router.post("/postAppointment", (req, res) => {
+    doctors.find({name:req.body.name})
+    .then(doc => {
+      console.log(doc);
+      appointment.create({
+        doctor_id: doc._id,
+        patient_id: req.body.id,
+        status: req.body.status,
+        specialization: req.body.specialization,
+        day: req.body.day,
+        ailment: req.body.ailment
+      })
+    .then(appointment => {
+      console.log(doc);
+       res.json({success: true})
+     })
+    .catch(err => {
+      res.json({success: false})
+     })
+    })
+  });
 
   module.exports = router;

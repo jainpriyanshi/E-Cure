@@ -23,12 +23,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-
-
-const db = require("./config/keys").mongoURI;
 mongoose
   .connect(
-    db,
+    "mongodb+srv://shweta:UFkSazwQonRwSH4X@cluster0.bopuu.mongodb.net/test?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => console.log("MongoDB connected successfully "))

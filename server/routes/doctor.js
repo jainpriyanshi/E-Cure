@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
+const doctors = require('../models/Doctor');
 
 const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
   console.log(data);
@@ -161,7 +162,7 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
                 newDoctor.password = hash;
                 newDoctor
                   .save()
-                  .then(doctor => res.json(doctor), require('../validations/login').otpupdate(req.body.email,otp))
+                  .then(doctor => res.json(doctor), require('../validations/login').mailverify(req.body.email,otp))
                   .catch(err => console.log(err));
               });
             });
@@ -217,7 +218,77 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
           });
         });
       });
+
+    router.get("/getSpecialization", (req, res) => {
+      doctors.find({}).then(doctor => {
+        var response = {};
+
+        // doctor.map(doc => {
+        //   if(!Object.keys(response).includes(doc.specialization)) {
+        //     response[doc.specialization] = [doc.name];
+        //   } else {
+        //     response[doc.specialization] = [...response[doc.specialization] ,doc.name];
+        //   }
+        // });
+         for(var i = 0; i < doctor.length; i++)
+         {
+           var specialization = doctor[i].specialization;
+          //  console.log(specialization);
+           if(specialization in response)
+           {
+             response[specialization].push(doctor[i].name);
+           }
+           else
+           {
+            //  console.log("ok");
+             response[specialization] = [];
+             response[specialization].push(doctor[i].name);
+           }
+           
+         }
+         console.log(response);
+         res.json({ success: true, response })
+      })
+      .catch(err => {
+          res.json({success: false})
+      })
+    });
+
+    router.get("/getDays", (req, res) => {
+      doctors.find({}).then(doctor => {
+        var response = {};
+        for(var i = 0; i < doctor.length; i++)
+        {
+          var name = doctor[i].name;
+          response[name] = [];
+          if(doctor[i].mon)
+          response[name].push("mon");
+          if(doctor[i].tues)
+          response[name].push("tues");
+          if(doctor[i].wed)
+          response[name].push("wed");
+          if(doctor[i].thurs)
+          response[name].push("thurs");
+          if(doctor[i].fri)
+          response[name].push("fri");
+          if(doctor[i].sat)
+          response[name].push("sat");
+          if(doctor[i].sun)
+          response[name].push("sun");
+        }
+        console.log(response);
+        res.json({ success: true, response })
+      })
+    });
+
     
+
     
-      module.exports = router;
+
+
+
+    
+
+    
+    module.exports = router;
 
