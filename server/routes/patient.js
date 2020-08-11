@@ -202,9 +202,9 @@ const Appointment = require("../models/Appointment");
   router.post("/postAppointment", (req, res) => {
     doctors.find({name:req.body.name})
     .then(doc => {
-      console.log(doc);
+      // console.log(doc[0]._id);
       appointment.create({
-        doctor_id: doc._id,
+        doctor_id: doc[0]._id,
         patient_id: req.body.id,
         status: req.body.status,
         specialization: req.body.specialization,
@@ -213,12 +213,12 @@ const Appointment = require("../models/Appointment");
       })
     .then(appointment => {
       console.log(doc);
-       res.json({success: true})
-     })
+        res.json({success: true})
+      })
     .catch(err => {
       res.json({success: false})
      })
-    })
+     })
   });
 
   module.exports = router;
