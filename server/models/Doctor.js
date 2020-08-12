@@ -42,41 +42,34 @@ const DoctorSchema = new Schema({
         type : String,
         required: true,
     },
-    mon: [
-        {
-            type: String, 
-        }
-    ],
-    tues: [
-        {
-            type: String, 
-        }
-    ],
-    wed: [
-        {
-            type: String, 
-        }
-    ],
-    thrus: [
-        {
-            type: String, 
-        }
-    ],
-    fri: [
-        {
-            type: String, 
-        }
-    ],
-    sat: [
-        {
-            type: String, 
-        }
-    ],
-    sun: [
-        {
-            type: String, 
-        }
-    ],
+    mon: {
+        type: Boolean,
+        default:true
+    },
+    tues: {
+        type: Boolean,
+        default:true
+    },
+    wed: {
+        type: Boolean,
+        default:true
+    },
+    thurs: {
+        type: Boolean,
+        default:true
+    },
+    fri: {
+        type: Boolean,
+        default:true
+    },
+    sat: {
+        type: Boolean, 
+        default:true
+    },
+    sun: {
+        type: Boolean, 
+        default:true
+    }   
 });
 
 module.exports = Doctor = mongoose.model("doctors", DoctorSchema);

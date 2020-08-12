@@ -1,4 +1,4 @@
 module.exports = {
-    email: process.env.EMAIL ,
-    pass: process.env.PASS 
+    email: "noreplymailfortest@gmail.com" ,
+    pass: "donotreply123"
   };                                                                 
