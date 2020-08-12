@@ -1,0 +1,5 @@
+runtime: nodejs12
+env_variables:
+  EMAIL: "noreplymailfortest@gmail.com" 
+  PASS: "donotreply123"
+  MONGOURI: "mongodb+srv://shweta:UFkSazwQonRwSH4X@cluster0.bopuu.mongodb.net/test?retryWrites=true&w=majority"

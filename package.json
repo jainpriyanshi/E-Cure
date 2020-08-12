@@ -10,6 +10,7 @@
   "author": "Priyanshi",
   "license": "ISC",
   "engines": {
-    "node": "12.x.x"
+    "node": "12.x.x",
+    "npm": "^6.0.0"
   }
 }

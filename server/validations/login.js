@@ -1,10 +1,11 @@
 const nodemailer = require('nodemailer');
 var {email,pass} = require('../config/mail');
 
-module.exports.otpupdate = (to,otp)=>{
+module.exports.mailverify = (to,otp)=>{
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        secure: false,
+        service: 'Gmail',
+        secure: true,
         auth: {
             type: "login",
             user: email,
@@ -19,6 +20,8 @@ module.exports.otpupdate = (to,otp)=>{
     };
     transporter.sendMail(mail,function(err,info){
         if(err){
+            console.log(email);
+            console.log(pass);
             console.log(err);
         }
         else {
