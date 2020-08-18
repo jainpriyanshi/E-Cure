@@ -24,13 +24,13 @@ class RegisterDoctor extends Component {
       password2: "",
       errors: {},
       hospital_name: "",
-      mon: [],
-      tues: [],
-      wed: [],
-      thrus: [],
-      fri: [],
-      sat: [],
-      sun: [],
+      mon: true,
+      tues: true,
+      wed: true,
+      thrus: true,
+      fri: true,
+      sat: true,
+      sun: true,
     };
   }
 

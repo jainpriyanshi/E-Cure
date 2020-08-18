@@ -1,3 +1,3 @@
 /server/node_modules
 /server/package-lock.json
-/app.yaml
+server/app.yaml
