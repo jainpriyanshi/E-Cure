@@ -201,35 +201,29 @@ const { route } = require("./doctor");
   });
 
   router.post("/postAppointment", (req, res) => {
-    const token = req.headers['x-access-token'].split(' ')[1];
-    let patientId = '';
-    try {
-      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-
-      jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-        console.log(decoded);
-       patientId = decoded.id;
-      });  
-   }
-   catch (error) {
-      console.log(error.message);
-    }
+    // const token = req.headers['x-access-token'].split(' ')[1];
     doctors.find({name:req.body.name})
     .then(doc => {
+      // if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
+      // jwt.verify(token, keys.secretOrKey, (err, decoded) => {
+      //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+      //   console.log(decoded);
+      // console.log(doc[0]._id);
+      
       appointment.create({
         doctor_id: doc[0]._id,
-        patient_id: patientId,
+        patient_id: req.body.id,
         status: req.body.status,
         specialization: req.body.specialization,
         day: req.body.day,
         ailment: req.body.ailment
       })
+    // })
     .then(appointment => {
+      console.log(doc);
         res.json({success: true})
       })
     .catch(err => {
-      console.log(err);
       res.json({success: false})
      })
      })
@@ -247,7 +241,7 @@ const { route } = require("./doctor");
           return res.json({appointment: data})
         })
       });  
-  }
+   }
    catch (error) {
       console.log(error.message);
     }
