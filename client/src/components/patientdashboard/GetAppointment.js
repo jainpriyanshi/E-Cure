@@ -170,6 +170,7 @@ const GetAppointment = () => {
         headers: {
           'Content-Type': 'application/json',
           // "Authorization": localStorage.getItem("accessToken")
+          "x-access-token": localStorage.getItem('jwtToken')
         },
         body: JSON.stringify({
           name: name,
