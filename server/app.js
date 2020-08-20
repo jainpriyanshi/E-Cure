@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '/build')));
 
 mongoose
   .connect(
@@ -44,7 +44,7 @@ mongoose
     app.use('/doctor', doctor);
     app.use('/patient', patient);
     app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname , '../client/build/index.html'));
+    res.sendFile(path.join(__dirname , '/build/index.html'));
     
   });
 
