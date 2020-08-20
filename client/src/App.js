@@ -19,6 +19,7 @@ import DoctorVerify from './components/doctorauth/verify';
 
 import Navbar from './components/navbar/navbar';
 import PrivateNavbar from './components/privateroutes/PrivateNavbar'
+import Chatbot from "./components/Chatbot/Chatbot"
 
 import Map from './components/landing/map';
 
@@ -53,7 +54,7 @@ class App extends Component {
             <Route exact path="/patient/login" component={PatientLogin} />
             <Route exact path="/patient/dashboard" component={PatientDashboard} />
             <Route exact path="/patient/getAppointment" component={PatientGetAppointment} />
-
+            <Route exact path ="/chatbot" component= {Chatbot} />
             <Route exact path="/doctor/register" component={DoctorRegister} />
             <Route exact path="/doctor/verify" component={DoctorVerify} />
             <Route exact path="/doctor/login" component={DoctorLogin} />
