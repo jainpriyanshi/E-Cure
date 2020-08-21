@@ -165,16 +165,15 @@ const GetAppointment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await fetch(`http://localhost:3000/patient/postAppointment`, {
+      const response = await fetch(`/patient/postAppointment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // "Authorization": localStorage.getItem("accessToken")
           "x-access-token": localStorage.getItem('jwtToken')
         },
         body: JSON.stringify({
           name: name,
-          status: "Under Consideration",
+          status: 0,
           specialization: speciality,
           day:days,
           ailment:ailment

@@ -16,6 +16,7 @@ import PatientGetAppointment from './components/patientdashboard/GetAppointment'
 import DoctorRegister from "./components/doctorauth/register";
 import DoctorLogin from "./components/doctorauth/login";
 import DoctorVerify from './components/doctorauth/verify';
+import DoctorDashboard from './components/doctordasboard/Dashboard';
 
 import Navbar from './components/navbar/navbar';
 import PrivateNavbar from './components/privateroutes/PrivateNavbar'
@@ -71,6 +72,7 @@ class App extends Component {
             <Route exact path="/doctor/register" component={DoctorRegister} />
             <Route exact path="/doctor/verify" component={DoctorVerify} />
             <Route exact path="/doctor/login" component={DoctorLogin} />
+            <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           </div>
         </Router>
       </Provider>

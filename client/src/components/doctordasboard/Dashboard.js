@@ -103,10 +103,11 @@ const Application = (props) => {
     const[acceptSize,setAcceptSize] = useState('');
     const[rejectSize,setRejectSize] = useState('');
 
+
     useEffect( ()=> {
       const SendingRequest = async () => {
         try{
-          const response = await fetch('/patient/getAllAppointment', {
+          const response = await fetch('/doctor/getAllAppointment', {
             headers: {
               // 'Content-Type': 'application/json',
               "x-access-token": localStorage.getItem('jwtToken')
@@ -144,9 +145,6 @@ const Application = (props) => {
       
         <div className={classes.root}>
                 <Toolbar/>
-                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
-                Get Appointment
-                </Button>
                 <Grid container className={classes.main}>
                     <Grid item xs={12} lg={4} >
                       <React.Fragment>
@@ -163,7 +161,7 @@ const Application = (props) => {
                           <Box my={2} overflow="auto">
                             {underApplication.map(item => {
                               return(
-                                <DashboardCard underApplication={item} /> 
+                                <DashboardCard underApplication={item} option={true}/> 
                               )
                             })}                                                
                           </Box>
@@ -186,7 +184,7 @@ const Application = (props) => {
                           <Box my={2} overflow="auto">
                             {acceptedApplication.map(item => {
                               return(
-                                <DashboardCard underApplication={item} /> 
+                                <DashboardCard underApplication={item} option={false}/> 
                               )
                             })}                                                
                           </Box>
@@ -208,7 +206,7 @@ const Application = (props) => {
                           <Box my={2} overflow="auto">
                             {rejectedApplication.map(item => {
                               return(
-                                <DashboardCard underApplication={item} /> 
+                                <DashboardCard underApplication={item} option={false}/> 
                               )
                             })}                                                
                           </Box>

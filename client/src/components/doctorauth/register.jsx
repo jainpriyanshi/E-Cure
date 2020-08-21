@@ -27,7 +27,7 @@ class RegisterDoctor extends Component {
       mon: true,
       tues: true,
       wed: true,
-      thrus: true,
+      thurs: true,
       fri: true,
       sat: true,
       sun: true,

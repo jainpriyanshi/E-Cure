@@ -8,11 +8,19 @@ const AppointmentSchema = new Schema({
     },
     patient_id: {
         type: Schema.Types.ObjectId,
-         required: true
+        required: true
+    },
+    patient_name: {
+        type: String,
+        required: true
+    },
+    doctor_name: {
+        type: String,
+        required: true
     },
     status: {
-        type: String,
-        default: "Under Consideration"
+        type: Number,
+        default:0
     },
     specialization: {
         type: String,

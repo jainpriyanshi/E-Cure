@@ -8,6 +8,8 @@ const keys = require("../config/keys");
 const appointment = require('../models/Appointment');
 const doctors = require('../models/Doctor');
 var {spawn} = require('child_process')
+const patients = require('../models/Patient');
+
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
 
@@ -210,20 +212,26 @@ const { route } = require("./doctor");
     let patientId = '';
     try {
       if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-
       jwt.verify(token, keys.secretOrKey, (err, decoded) => {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-        console.log(decoded);
        patientId = decoded.id;
       });  
-   }
-   catch (error) {
-      console.log(error.message);
     }
+    catch {
+      console.log(err);
+    }
+    let patientName;
+    patients.findById(patientId)
+    .then(patient => {
+      patientName = patient.name
+    
+
     doctors.find({name:req.body.name})
     .then(doc => {
       appointment.create({
         doctor_id: doc[0]._id,
+        doctor_name: req.body.name,
+        patient_name: patientName,
         patient_id: patientId,
         status: req.body.status,
         specialization: req.body.specialization,
@@ -231,14 +239,15 @@ const { route } = require("./doctor");
         ailment: req.body.ailment
       })
     .then(appointment => {
+      console.log(appointment);
         res.json({success: true})
       })
+    })
+  })
     .catch(err => {
-      console.log(err);
       res.json({success: false})
-     })
-     })
-  });
+    })
+    });
 
   router.get('/getAllAppointment', (req,res) => {
     const token = req.headers['x-access-token'].split(' ')[1];
@@ -252,10 +261,11 @@ const { route } = require("./doctor");
           return res.json({appointment: data})
         })
       });  
-  }
+   }
    catch (error) {
       console.log(error.message);
     }
   });
 
+ 
   module.exports = router;
