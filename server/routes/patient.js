@@ -7,6 +7,7 @@ const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const appointment = require('../models/Appointment');
 const doctors = require('../models/Doctor');
+const patients = require('../models/Patient');
 
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
@@ -201,33 +202,46 @@ const { route } = require("./doctor");
   });
 
   router.post("/postAppointment", (req, res) => {
-    // const token = req.headers['x-access-token'].split(' ')[1];
+    const token = req.headers['x-access-token'].split(' ')[1];
+    let patientId = '';
+    try {
+      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
+      jwt.verify(token, keys.secretOrKey, (err, decoded) => {
+        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+       patientId = decoded.id;
+      });  
+    }
+    catch {
+      console.log(err);
+    }
+    let patientName;
+    patients.findById(patientId)
+    .then(patient => {
+      patientName = patient.name
+    
+
     doctors.find({name:req.body.name})
     .then(doc => {
-      // if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-      // jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-      //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-      //   console.log(decoded);
-      // console.log(doc[0]._id);
-      
       appointment.create({
         doctor_id: doc[0]._id,
-        patient_id: req.body.id,
+        doctor_name: req.body.name,
+        patient_name: patientName,
+        patient_id: patientId,
         status: req.body.status,
         specialization: req.body.specialization,
         day: req.body.day,
         ailment: req.body.ailment
       })
-    // })
     .then(appointment => {
-      console.log(doc);
+      console.log(appointment);
         res.json({success: true})
       })
+    })
+  })
     .catch(err => {
       res.json({success: false})
-     })
-     })
-  });
+    })
+    });
 
   router.get('/getAllAppointment', (req,res) => {
     const token = req.headers['x-access-token'].split(' ')[1];
@@ -247,4 +261,5 @@ const { route } = require("./doctor");
     }
   });
 
+ 
   module.exports = router;

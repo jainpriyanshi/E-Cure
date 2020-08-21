@@ -223,25 +223,15 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
     router.get("/getSpecialization", (req, res) => {
       doctors.find({}).then(doctor => {
         var response = {};
-
-        // doctor.map(doc => {
-        //   if(!Object.keys(response).includes(doc.specialization)) {
-        //     response[doc.specialization] = [doc.name];
-        //   } else {
-        //     response[doc.specialization] = [...response[doc.specialization] ,doc.name];
-        //   }
-        // });
          for(var i = 0; i < doctor.length; i++)
          {
            var specialization = doctor[i].specialization;
-          //  console.log(specialization);
            if(specialization in response)
            {
              response[specialization].push(doctor[i].name);
            }
            else
            {
-            //  console.log("ok");
              response[specialization] = [];
              response[specialization].push(doctor[i].name);
            }
@@ -294,11 +284,24 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
             return res.json({appointment: data})
           })
       }); 
-     }
+    }
      catch (error) {
         console.log(error.message);
       }
     });
+
+    router.post('/changeStatus', (req,res) => {
+      console.log(req.body.status);
+      console.log(req.body.app_id);
+      Appointment.findByIdAndUpdate(req.body.app_id, {status: req.body.status})
+       .then(app => {
+         res.json({success: true})
+       })
+       .catch(err => {
+         res.json({success: true})
+       })
+    
+   });
     
     module.exports = router;
 
