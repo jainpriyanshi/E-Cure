@@ -1,0 +1,16 @@
+{
+  "name": "e-cure",
+  "version": "1.0.0",
+  "description": "E-Cure",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd client && npm run build && cd .. && cd server && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Priyanshi",
+  "license": "ISC",
+  "engines": {
+    "node": "12.x.x",
+    "npm": "^6.0.0"
+  }
+}
