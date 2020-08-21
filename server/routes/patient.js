@@ -7,7 +7,7 @@ const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const appointment = require('../models/Appointment');
 const doctors = require('../models/Doctor');
-
+var {spawn} = require('child_process')
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
 
@@ -118,8 +118,6 @@ const { route } = require("./doctor");
   });
 
   router.post("/register", (req, res) => {
-    console.log(req.body);
-    console.log("hello");
     const { errors, isValid } = ValidateRegisterInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -138,13 +136,20 @@ const { route } = require("./doctor");
           isVerified: false,
           phone: req.body.phone
         });
-        bcrypt.genSalt(10, (err, salt) => {
+        console.log("hey");
+            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp]);
+            
+          bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
             newUser
               .save()
-              .then(user => res.json(user), require('../validations/login').mailverify(req.body.email,otp))
+              .then(user => res.json(user) , 
+                pythonProcess.stdout.on('data', (data) => {
+                console.log(data);
+                })
+            )
               .catch(err => console.log(err));
           });
         });

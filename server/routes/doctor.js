@@ -6,6 +6,7 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const doctors = require('../models/Doctor');
+var spawn = require("child_process").spawn;
 const Appointment = require('../models/Appointment');
 
 const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
@@ -125,11 +126,11 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
       
     
       router.post("/register", (req, res) => {
-        console.log(req.body);
+       
         const { errors, isValid } = ValidateDoctorRegisterInput(req.body);
-       // if (!isValid) {
-        //  return res.status(400).json(errors);
-       // }
+        if (!isValid) {
+          return res.status(400).json(errors);
+       }
         Doctor.findOne({ email: req.body.email }).then(doctor => {
           if (doctor) {
             return res.status(400).json({ email: "Email already exists" });
@@ -156,14 +157,19 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               sun: req.body.sun,
 
             });
-            console.log(newDoctor);
+            console.log("hey");
+            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp ]);
+            
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newDoctor.password, salt, (err, hash) => {
                 if (err) throw err;
                 newDoctor.password = hash;
                 newDoctor
                   .save()
-                  .then(doctor => res.json(doctor), require('../validations/login').mailverify(req.body.email,otp))
+                  .then(doctor => res.json(doctor),
+                  pythonProcess.stdout.on('data', (data) => {
+                    console.log(data);
+                    }))
                   .catch(err => console.log(err));
               });
             });

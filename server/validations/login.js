@@ -20,8 +20,7 @@ module.exports.mailverify = (to,otp)=>{
     };
     transporter.sendMail(mail,function(err,info){
         if(err){
-            console.log(email);
-            console.log(pass);
+            
             console.log(err);
         }
         else {

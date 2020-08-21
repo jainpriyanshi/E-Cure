@@ -6,28 +6,54 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
- 
+import Chatbot from '../Chatbot/Chatbot'
 class map extends Component {
-  constructor (props) {
-    super(props);
-    this.state = { 
-        total: {},
-        statewise: []
-     };
-   }
-    componentDidMount(){
-        axios.get('https://api.covidindiatracker.com/state_data.json')
-        .then(res=> this.setState({statewise: res.data}));
-        axios.get('https://api.covidindiatracker.com/total.json')
-        .then(res=> this.setState({total: res.data}));
-    }
-
-  render () {
+  
+    
+    render () {
 
     return (
-      <div class="row mx-auto">
-         
-         <div class="col-lg-5 container col-sm-12 col-md-12 mx-auto" style={{overflowX: "auto"}}>
+      <div class="row mx-auto center container">
+         <div class="col-lg-7 center row">
+             <h1 style={{marginTop: "50px", fontFamily: "roboto"}} class="text-center col-lg-12"> COVID Tracker</h1>  
+             <h2 style={{ fontFamily: "roboto"}} class="col-lg-12"> India </h2> 
+             <div class="card col-lg-4" style={{margin: "30px 50px" }} >
+                    <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Confirmed </h4>
+                    <h3 style={{color: "red" , fontFamily:"roboto"}}>
+                        {this.props.state.total.confirmed}
+                    </h3>
+                    <h6 style={{color: "red" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.props.state.total.cChanges} </b>  </h6>
+             </div>
+             <div class="card col-lg-4" style={{margin: "30px 50px"}}>
+             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Active </h4>
+             <h3 style={{color: "blue" , fontFamily:"roboto"}}>
+                        {this.props.state.total.active}
+                    </h3>
+                    <h6 style={{color: "blue" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.props.state.total.aChanges} </b>  </h6>
+             </div>
+             <div class="card col-lg-4" style={{margin: "30px 50px"}}>
+             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Recovered </h4>
+             <h3 style={{color: "green" ,  fontFamily:"roboto" }}>
+                        {this.props.state.total.recovered}
+                    </h3>
+                    <h6 style={{color: "green" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.props.state.total.rChanges} </b> </h6>
+             </div>
+             <div class="card col-lg-4" style={{margin: "30px 50px"}}>
+             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Deaths </h4>
+             <h3 style={{color: "darkgrey" ,  fontFamily:"roboto"}}>
+                        {this.props.state.total.deaths}
+                    </h3>
+                    <h6 style={{color: "darkgrey" , marginBottom:"20px" , fontFamily:"roboto"}}><b>+{this.props.state.total.dChanges} </b> </h6>
+             </div>
+             
+         </div>
+         <div class="col-lg-2">
+            
+         </div>
+         <div class="col-lg-3 ">
+            <Chatbot />
+         </div>
+         <div class="col-lg-12" style={{overflowX: "auto" , marginTop: "20px"}}>
          <TableContainer>
             <Table style={{fontFamily: "Lato sans-serif"}}>
                 <colgroup>
@@ -47,7 +73,7 @@ class map extends Component {
                     </TableRow>
                 </TableHead>
                     <TableBody>
-                        {this.state.statewise.map((data) => (
+                        {this.props.state.statewise.map((data) => (
                             <TableRow key={data.name} style={{ height: "10px"}}>
                             <TableCell  style={{color: "black" , textDecoration: "bold"}}>  {data.state} </TableCell>
                         <TableCell  style={{color: "red"}}> {data.confirmed} <br/>  <b><i> {data.cChanges>=0 ?<span>+</span>: null}{data.cChanges}</i></b></TableCell>
@@ -60,39 +86,6 @@ class map extends Component {
                     </Table>
                 </TableContainer>
          </div>
-         <div class="col-lg-5 container center mx-auto">
-             <h1 style={{marginTop: "50px", fontFamily: "roboto"}} class="text-center"> COVID Tracker</h1>  
-             <h2 style={{ fontFamily: "roboto"}}> India </h2> 
-             <div class="card" style={{margin: "30px 50px" }} >
-                    <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Confirmed </h4>
-                    <h3 style={{color: "red" , fontFamily:"roboto"}}>
-                        {this.state.total.confirmed}
-                    </h3>
-                    <h6 style={{color: "red" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.state.total.cChanges} </b>  </h6>
-             </div>
-             <div class="card" style={{margin: "30px 50px"}}>
-             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Active </h4>
-             <h3 style={{color: "blue" , fontFamily:"roboto"}}>
-                        {this.state.total.active}
-                    </h3>
-                    <h6 style={{color: "blue" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.state.total.aChanges} </b>  </h6>
-             </div>
-             <div class="card" style={{margin: "30px 50px"}}>
-             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Recovered </h4>
-             <h3 style={{color: "green" ,  fontFamily:"roboto" }}>
-                        {this.state.total.recovered}
-                    </h3>
-                    <h6 style={{color: "green" , marginBottom:"20px" , fontFamily:"roboto"}}> <b>+{this.state.total.rChanges} </b> </h6>
-             </div>
-             <div class="card" style={{margin: "30px 50px"}}>
-             <h4 style={{ fontFamily: "roboto", marginTop:"20px" }}> Deaths </h4>
-             <h3 style={{color: "darkgrey" ,  fontFamily:"roboto"}}>
-                        {this.state.total.deaths}
-                    </h3>
-                    <h6 style={{color: "darkgrey" , marginBottom:"20px" , fontFamily:"roboto"}}><b>+{this.state.total.dChanges} </b> </h6>
-             </div>
-         </div>
-         
       </div>
     );
   }
