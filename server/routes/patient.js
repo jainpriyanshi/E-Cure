@@ -6,6 +6,7 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const appointment = require('../models/Appointment');
+const Image = require('../models/Image');
 const doctors = require('../models/Doctor');
 var {spawn} = require('child_process')
 const patients = require('../models/Patient');
@@ -249,5 +250,16 @@ const { route } = require("./doctor");
       })
   });
 
+  router.get('/displayPrescription',verifyToken, (req,res) => {
+    let patientId = req.patientId;
+    Image.find({patient_id: patientId})
+    .then(images => {
+      console.log(images)
+      res.json({images, success: true})
+    })
+    .catch(err => {
+      res.json({success: false})
+    })
+  })
  
   module.exports = router;

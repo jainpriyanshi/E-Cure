@@ -10,12 +10,11 @@ const jwt = require('jsonwebtoken');
 const keys = require('../config/keys.js');
 const { verifyToken } = require('../middlewares/verifyToken');
 
-var storage = multer.diskStorage({ 
+    var storage = multer.diskStorage({ 
     destination: (req, file, cb) => { 
         cb(null, './routes/uploads') 
     }, 
     filename: (req, file, cb) => { 
-      // console.log(file);
         cb(null, file.fieldname + '-' + Date.now()) 
       } 
     }); 
@@ -49,30 +48,7 @@ var storage = multer.diskStorage({
         console.log(err);
         res.json({success: false})
       })
-
-
-    //   try {
-        
-    // const doctor = await Doctor.findById(doctorId);
-    // doctorName = doctor.name;
-    //   const patients = await Patient.find({name: req.body.name});
-
-    //   Image.create({
-    //         patient_id: patients[0]._id,
-    //         patient_name: req.body.name,
-    //         doctor_name: doctorName,
-    //         doctor_id: doctorId,
-    //         img: { 
-    //           data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-    //           contentType: 'image/png'
-    //         } 
-    //       });
-    //       res.json({success: true})
-    //   } catch (error) {
-    //     console.log(error);
-    //     res.json({success: false})
-    //   }
-
     });
+
 
     module.exports = router;

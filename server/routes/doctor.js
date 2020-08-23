@@ -8,6 +8,8 @@ const keys = require("../config/keys");
 const doctors = require('../models/Doctor');
 var spawn = require("child_process").spawn;
 const Appointment = require('../models/Appointment');
+const { verifyToken } = require('../middlewares/verifyToken');
+const Image= require('../models/Image');
 
 const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
   console.log(data);
@@ -126,11 +128,10 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
       
     
       router.post("/register", (req, res) => {
-       
         const { errors, isValid } = ValidateDoctorRegisterInput(req.body);
         if (!isValid) {
           return res.status(400).json(errors);
-       }
+        }
         Doctor.findOne({ email: req.body.email }).then(doctor => {
           if (doctor) {
             return res.status(400).json({ email: "Email already exists" });
@@ -155,7 +156,6 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               fri: req.body.fri,
               sat: req.body.sat,
               sun: req.body.sun,
-
             });
             console.log("hey");
             const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp ]);
@@ -304,8 +304,37 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
        .catch(err => {
          res.json({success: true})
        })
+    });
     
-   });
+    router.get('/myPatients', verifyToken, (req,res) => {
+      let doctorId = req.userId;
+      Appointment.find({doctor_id : doctorId})
+      .then(patients => {
+        console.log(patients)
+        var response = [];
+        for(var i = 0; i < patients.length; i++)
+        {
+          response.push(patients[i].patient_name);
+        }
+        console.log(response);
+        res.json({ success: true, response })
+      })
+      .catch(err => {
+        res.json({success: false})
+      })
+    });
+
+    router.get('/displayPrescription',verifyToken, (req,res) => {
+      let doctorId = req.userId;
+      Image.find({doctor_id: doctorId})
+      .then(images => {
+        console.log(images)
+        res.json({images, success: true})
+      })
+      .catch(err => {
+        res.json({success: false})
+      })
+    })
     
     module.exports = router;
 
