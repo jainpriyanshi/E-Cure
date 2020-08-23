@@ -9,6 +9,7 @@ const appointment = require('../models/Appointment');
 const doctors = require('../models/Doctor');
 var {spawn} = require('child_process')
 const patients = require('../models/Patient');
+const { verifyToken } = require('../middlewares/verifyToken');
 
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
@@ -207,19 +208,8 @@ const { route } = require("./doctor");
     });
   });
 
-  router.post("/postAppointment", (req, res) => {
-    const token = req.headers['x-access-token'].split(' ')[1];
-    let patientId = '';
-    try {
-      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-      jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-       patientId = decoded.id;
-      });  
-    }
-    catch {
-      console.log(err);
-    }
+  router.post("/postAppointment", verifyToken, (req, res) => {
+    let patientId = req.userId;
     let patientName;
     patients.findById(patientId)
     .then(patient => {
@@ -249,22 +239,14 @@ const { route } = require("./doctor");
     })
     });
 
-  router.get('/getAllAppointment', (req,res) => {
-    const token = req.headers['x-access-token'].split(' ')[1];
-    try {
-      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-
-      jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-        console.log(decoded);
-        Appointment.find({patient_id : decoded.id}).then (data => {
+  router.get('/getAllAppointment', verifyToken, (req,res) => {
+    let patientId = req.userId;
+        Appointment.find({patient_id : patientId}).then (data => {
           return res.json({appointment: data})
-        })
-      });  
-   }
-   catch (error) {
-      console.log(error.message);
-    }
+        }).
+     catch (error => {
+        console.log(error.message);
+      })
   });
 
  

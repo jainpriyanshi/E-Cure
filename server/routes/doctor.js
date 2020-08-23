@@ -297,8 +297,6 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
     });
 
     router.post('/changeStatus', (req,res) => {
-      console.log(req.body.status);
-      console.log(req.body.app_id);
       Appointment.findByIdAndUpdate(req.body.app_id, {status: req.body.status})
        .then(app => {
          res.json({success: true})
