@@ -1,3 +1,4 @@
+import React from'react';
 import axios from 'axios';
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc) {
@@ -14,6 +15,46 @@ class ActionProvider {
       "Fantastic, We have Following categories of doctors Available",
       {
         widget: "SearchDoctor",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+  handleENTDoctor= (name) => {
+    const message = this.createChatBotMessage(
+      "Fantastic, We have Following ENT Doctors Available",
+      {
+        widget: "SearchENT",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+  handleCardiacDoctor= (name) => {
+    const message = this.createChatBotMessage(
+      "Fantastic, We have Following Cardiac Doctors Available",
+      {
+        widget: "SearchCardiac",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+  handleNeurologistDoctor= (name) => {
+    const message = this.createChatBotMessage(
+      "Fantastic, We have Following Neurologist Available",
+      {
+        widget: "SearchNeurologist",
+      }
+    );
+
+    this.updateChatbotState(message);
+  };
+  handleDermatologistDoctor= (name) => {
+    const message = this.createChatBotMessage(
+      "Fantastic, We have Following Dermatologist Available",
+      {
+        widget: "SearchDermatologist",
       }
     );
 
@@ -56,19 +97,10 @@ class ActionProvider {
   };
   handleStateCovidCases = () => {
     const message = this.createChatBotMessage(
-      `Active Cases in India State Wise`
+      `Active Cases in India State Wise` , {widget: "StateWise"}
     );
-    this.updateChatbotState(message);
-    axios.get('https://api.covidindiatracker.com/state_data.json')
-        .then(res=> {
-            var arr = res.data;
-            arr.map((data) => {
-              var message = this.createChatBotMessage(
-                `${data.state}: ${data.active}`
-              );
-              this.updateChatbotState(message);
-            })
-        }); 
+    this.updateChatbotState(message );
+   
   };
   updateChatbotState(message) {
     

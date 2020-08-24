@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import Dialog from './Dialog';
+import {useHistory} from 'react-router-dom';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -42,16 +42,77 @@ const useStyles = makeStyles({
 
 export default function OutlinedCard(props) {
   const classes = useStyles();
+  const history = useHistory();
   const bull = <span className={classes.bullet}>•</span>;
 //   if(props.underApplication)
 //   console.log("asassa",props.underApplication.status)
 const [open, setOpen] = React.useState(false);
+const [appId, setAppId] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleReject = () => {
+    const SendingRequest = async () => {
+      try{
+        const response = await fetch('/doctor/changeStatus', {
+          method: 'POST',
+          headers: {
+             'Content-Type': 'application/json',
+            //"x-access-token": localStorage.getItem('jwtToken')
+            // "Authorization": localStorage.getItem("accessToken")
+          },
+          body: JSON.stringify({
+            "app_id": props.underApplication._id,
+            "status": "2"
+          })
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        history.go()
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    SendingRequest();
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if(props.underApplication._id){
+    setAppId(props.underApplication._id);
+    console.log(appId)
+    }
+  }, [props.underApplication._id])
+
+  const handleAccept = () => {
+    const SendingRequest = async () => {
+      try{
+        const response = await fetch('http://localhost:3000/doctor/changeStatus', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // "x-access-token": localStorage.getItem('jwtToken')
+            // "Authorization": localStorage.getItem("accessToken")
+          },
+          body: JSON.stringify({
+            "app_id": props.underApplication._id,
+            "status": "1"
+          })
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        history.go()
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    SendingRequest();
     setOpen(false);
   };
 
@@ -60,7 +121,7 @@ const [open, setOpen] = React.useState(false);
     <Card className={classes.root} variant="outlined" onClick={handleClickOpen}>
       <CardContent className={classes.CardContent}>
         <Typography variant="h5" component="h2">
-            {props.underApplication && props.underApplication.doctor_name}
+            {props.underApplication && props.underApplication.patient_name}
         </Typography>
         <Typography variant="body2" component="p">
         {props.underApplication && props.underApplication.ailment}
@@ -73,7 +134,7 @@ const [open, setOpen] = React.useState(false);
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Doctor Name -"}{props.underApplication && props.underApplication.doctor_name}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Patient Name -"}{props.underApplication && props.underApplication.patient_name}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Ailment - {props.underApplication && props.underApplication.ailment}
@@ -85,14 +146,14 @@ const [open, setOpen] = React.useState(false);
             Specialization - {props.underApplication && props.underApplication.specialization}
           </DialogContentText>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
+        {props.option && <DialogActions>
+          <Button onClick={handleReject} color="primary">
             Reject
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={handleAccept} color="primary" autoFocus>
             Accept
           </Button>
-        </DialogActions> */}
+        </DialogActions>}
       </Dialog>
     </React.Fragment>
   );

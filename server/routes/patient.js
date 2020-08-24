@@ -6,7 +6,11 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const appointment = require('../models/Appointment');
+const Image = require('../models/Image');
 const doctors = require('../models/Doctor');
+var {spawn} = require('child_process')
+const patients = require('../models/Patient');
+const { verifyToken } = require('../middlewares/verifyToken');
 
 const ValidateRegisterInput = function validateRegisterInput(data) {
     let errors = {};
@@ -118,8 +122,6 @@ const { route } = require("./doctor");
   });
 
   router.post("/register", (req, res) => {
-    console.log(req.body);
-    console.log("hello");
     const { errors, isValid } = ValidateRegisterInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -138,13 +140,20 @@ const { route } = require("./doctor");
           isVerified: false,
           phone: req.body.phone
         });
-        bcrypt.genSalt(10, (err, salt) => {
+        console.log("hey");
+            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp]);
+            
+          bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
             newUser
               .save()
-              .then(user => res.json(user), require('../validations/login').mailverify(req.body.email,otp))
+              .then(user => res.json(user) , 
+                pythonProcess.stdout.on('data', (data) => {
+                console.log(data);
+                })
+            )
               .catch(err => console.log(err));
           });
         });
@@ -200,51 +209,57 @@ const { route } = require("./doctor");
     });
   });
 
-  router.post("/postAppointment", (req, res) => {
-    // const token = req.headers['x-access-token'].split(' ')[1];
+  router.post("/postAppointment", verifyToken, (req, res) => {
+    let patientId = req.userId;
+    let patientName;
+    patients.findById(patientId)
+    .then(patient => {
+      patientName = patient.name
+    
+
     doctors.find({name:req.body.name})
     .then(doc => {
-      // if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-      // jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-      //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-      //   console.log(decoded);
-      // console.log(doc[0]._id);
-      
       appointment.create({
         doctor_id: doc[0]._id,
-        patient_id: req.body.id,
+        doctor_name: req.body.name,
+        patient_name: patientName,
+        patient_id: patientId,
         status: req.body.status,
         specialization: req.body.specialization,
         day: req.body.day,
         ailment: req.body.ailment
       })
-    // })
     .then(appointment => {
-      console.log(doc);
+      console.log(appointment);
         res.json({success: true})
       })
+    })
+  })
     .catch(err => {
       res.json({success: false})
-     })
-     })
-  });
+    })
+    });
 
-  router.get('/getAllAppointment', (req,res) => {
-    const token = req.headers['x-access-token'].split(' ')[1];
-    try {
-      if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
-
-      jwt.verify(token, keys.secretOrKey, (err, decoded) => {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-        console.log(decoded);
-        Appointment.find({patient_id : decoded.id}).then (data => {
+  router.get('/getAllAppointment', verifyToken, (req,res) => {
+    let patientId = req.userId;
+        Appointment.find({patient_id : patientId}).then (data => {
           return res.json({appointment: data})
-        })
-      });  
-   }
-   catch (error) {
-      console.log(error.message);
-    }
+        }).
+     catch (error => {
+        console.log(error.message);
+      })
   });
 
+  router.get('/displayPrescription',verifyToken, (req,res) => {
+    let patientId = req.patientId;
+    Image.find({patient_id: patientId})
+    .then(images => {
+      console.log(images)
+      res.json({images, success: true})
+    })
+    .catch(err => {
+      res.json({success: false})
+    })
+  })
+ 
   module.exports = router;

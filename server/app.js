@@ -5,12 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var doctor = require('./routes/doctor');
+var image = require('./routes/image')
 var patient = require('./routes/patient');
 var app = express();
 var mongoose = require("mongoose");
 var passport = require("passport");
 var cors = require('cors');
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -43,6 +43,7 @@ mongoose
     app.options("*", cors());
     app.use('/doctor', doctor);
     app.use('/patient', patient);
+    app.use(image);
     app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname , '/build/index.html'));
     

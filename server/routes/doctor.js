@@ -6,7 +6,10 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const keys = require("../config/keys");
 const doctors = require('../models/Doctor');
+var spawn = require("child_process").spawn;
 const Appointment = require('../models/Appointment');
+const { verifyToken } = require('../middlewares/verifyToken');
+const Image= require('../models/Image');
 
 const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
   console.log(data);
@@ -125,11 +128,10 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
       
     
       router.post("/register", (req, res) => {
-        console.log(req.body);
         const { errors, isValid } = ValidateDoctorRegisterInput(req.body);
-       // if (!isValid) {
-        //  return res.status(400).json(errors);
-       // }
+        if (!isValid) {
+          return res.status(400).json(errors);
+        }
         Doctor.findOne({ email: req.body.email }).then(doctor => {
           if (doctor) {
             return res.status(400).json({ email: "Email already exists" });
@@ -154,16 +156,20 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               fri: req.body.fri,
               sat: req.body.sat,
               sun: req.body.sun,
-
             });
-            console.log(newDoctor);
+            console.log("hey");
+            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp ]);
+            
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newDoctor.password, salt, (err, hash) => {
                 if (err) throw err;
                 newDoctor.password = hash;
                 newDoctor
                   .save()
-                  .then(doctor => res.json(doctor), require('../validations/login').mailverify(req.body.email,otp))
+                  .then(doctor => res.json(doctor),
+                  pythonProcess.stdout.on('data', (data) => {
+                    console.log(data);
+                    }))
                   .catch(err => console.log(err));
               });
             });
@@ -223,25 +229,15 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
     router.get("/getSpecialization", (req, res) => {
       doctors.find({}).then(doctor => {
         var response = {};
-
-        // doctor.map(doc => {
-        //   if(!Object.keys(response).includes(doc.specialization)) {
-        //     response[doc.specialization] = [doc.name];
-        //   } else {
-        //     response[doc.specialization] = [...response[doc.specialization] ,doc.name];
-        //   }
-        // });
          for(var i = 0; i < doctor.length; i++)
          {
            var specialization = doctor[i].specialization;
-          //  console.log(specialization);
            if(specialization in response)
            {
              response[specialization].push(doctor[i].name);
            }
            else
            {
-            //  console.log("ok");
              response[specialization] = [];
              response[specialization].push(doctor[i].name);
            }
@@ -294,11 +290,51 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
             return res.json({appointment: data})
           })
       }); 
-     }
+    }
      catch (error) {
         console.log(error.message);
       }
     });
+
+    router.post('/changeStatus', (req,res) => {
+      Appointment.findByIdAndUpdate(req.body.app_id, {status: req.body.status})
+       .then(app => {
+         res.json({success: true})
+       })
+       .catch(err => {
+         res.json({success: true})
+       })
+    });
+    
+    router.get('/myPatients', verifyToken, (req,res) => {
+      let doctorId = req.userId;
+      Appointment.find({doctor_id : doctorId})
+      .then(patients => {
+        console.log(patients)
+        var response = [];
+        for(var i = 0; i < patients.length; i++)
+        {
+          response.push(patients[i].patient_name);
+        }
+        console.log(response);
+        res.json({ success: true, response })
+      })
+      .catch(err => {
+        res.json({success: false})
+      })
+    });
+
+    router.get('/displayPrescription',verifyToken, (req,res) => {
+      let doctorId = req.userId;
+      Image.find({doctor_id: doctorId})
+      .then(images => {
+        console.log(images)
+        res.json({images, success: true})
+      })
+      .catch(err => {
+        res.json({success: false})
+      })
+    })
     
     module.exports = router;
 
