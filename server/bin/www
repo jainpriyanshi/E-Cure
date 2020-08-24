@@ -2,9 +2,31 @@
 var debug = require('debug')('my-application');
 var app = require('../app');
 
-app.set('port', process.env.PORT || 3000);
+const http = require('http');
+var server = http.createServer(app);
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-  console.log('Express server listening on port ' + server.address().port);
+var io = require('socket.io')(http);
+const PORT = process.env.PORT || 3000;
+const User = require ("../models/Chat");
+
+io.on('connection', function(socket){
+  console.log("user connected");
+  socket.on('disconnect', function(){
+    console.log("user disconnected");
+  });
+  socket.on("chat message", chat => {
+    console.log(chat);
+    const newmsg = new Chat({
+       sender : chat.sender,
+       receiver: chat.receiver,
+       sender_id: chat.sender_id,
+       receiver_id: chat.receiver_id,
+       msg: chat.msg
+     });
+     newmsg.save();
+     io.sockets.emit("change_data");
+  });
 });
+
+io.attach(server);
+server.listen(PORT);

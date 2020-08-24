@@ -7,6 +7,14 @@ import classnames from "classnames";
 
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+var sectionStyle = {
+  height: "90vh",
+ background: `url(${process.env.PUBLIC_URL}/bg.jpg)` ,
+ backgroundPosition: 'center',
+ backgroundSize: 'cover',
+ backgroundRepeat: 'no-repeat',
+ backgroundAttachment: "static",
+};
 
 class PatientLogin extends Component {
   constructor() {
@@ -55,11 +63,13 @@ class PatientLogin extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
+      <div style={sectionStyle}>
+        <br/>
+        <div class="container" >
+        <div  className="row">
         <div className="col-lg-6 offset-s2 ">
           </div>
-          <div className="col-lg-5 offset-s2">
+          <div className="col-lg-5 offset-s2 container">
           <Box width ="100%" height="100%"   item xs={12} sm={8} md={5} component={Paper} elevation={6} className="card" >
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             <br/> 
@@ -80,6 +90,8 @@ class PatientLogin extends Component {
                 <input
                   onChange={this.onChange}
                   value={this.state.email}
+                  label="Email"
+                  placeholder = "Email"
                   error={errors.email}
                   id="email"
                   type="email"
@@ -87,7 +99,7 @@ class PatientLogin extends Component {
                     invalid: errors.email || errors.emailnotfound
                   })}
                 />
-                <label htmlFor="email">Email</label>
+               
                 <span className="red-text">
                   {errors.email}
                   {errors.emailnotfound}
@@ -98,13 +110,14 @@ class PatientLogin extends Component {
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
+                  placeholder = "Password"
                   id="password"
                   type="password"
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
                 />
-                <label htmlFor="password">Password</label>
+                
                 <span className="red-text">
                   {errors.password}
                   {errors.passwordincorrect}
@@ -129,6 +142,7 @@ class PatientLogin extends Component {
             </form>
             </Box>
           </div>
+        </div>
         </div>
       </div>
     );

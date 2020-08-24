@@ -8,6 +8,15 @@ import classnames from "classnames";
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
+var sectionStyle = {
+  height: "90vh",
+ background: `url(${process.env.PUBLIC_URL}/bg.jpg)` ,
+ backgroundPosition: 'center',
+ backgroundSize: 'cover',
+ backgroundRepeat: 'no-repeat',
+ backgroundAttachment: "static",
+};
+
 class DoctorLogin extends Component {
   constructor() {
     super();
@@ -55,9 +64,10 @@ class DoctorLogin extends Component {
     const { errors } = this.state;
 
     return (
-
+      <div style={sectionStyle}>
+        <br />
       <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
+        <div className="row">
         <div className="col-lg-6 offset-s2 ">
           </div>
           <div className="col-lg-5 offset-s2 ">
@@ -134,6 +144,7 @@ class DoctorLogin extends Component {
             </Box>
           </div>
         </div>
+      </div>
       </div>
     );
   }

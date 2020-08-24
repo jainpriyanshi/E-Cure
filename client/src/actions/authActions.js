@@ -7,7 +7,7 @@ import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 export const registerPatient = (userData, history) => dispatch => {
   axios
     .post("/patient/register", userData)
-    .then(res => history.push("/patient/verify"))
+    .then(res => history.push("/patient/login"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -53,7 +53,7 @@ export const loginPatient = userData => dispatch => {
 export const registerDoctor = (userData, history) => dispatch => {
   axios
     .post("/doctor/register", userData)
-    .then(res => history.push("/doctor/verify"))
+    .then(res => history.push("/doctor/login"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

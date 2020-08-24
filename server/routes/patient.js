@@ -137,24 +137,17 @@ const { route } = require("./doctor");
           email: req.body.email,
           password: req.body.password,
           otp: otp.toString(),
-          isVerified: false,
+          isVerified: true,
           phone: req.body.phone
         });
-        console.log("hey");
-        const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp]);
-        process.cwd()
-        console.log(pythonProcess);
+      
           bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
             newUser
               .save()
-              .then(user => res.json(user) , console.log(user) ,
-                pythonProcess.stdout.on('data', (data) => {
-                console.log(data);
-                })
-            )
+              .then(user => res.json(user))
               .catch(err => console.log(err));
           });
         });
@@ -163,7 +156,6 @@ const { route } = require("./doctor");
   });
   router.post("/login", (req, res) => {
     const { errors, isValid } = ValidateLoginInput(req.body);
-    
     if (!isValid) {
       return res.status(400).json(errors);
     }
