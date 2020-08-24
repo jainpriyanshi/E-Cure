@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, '/build')));
 
 mongoose
   .connect(
-    "mongodb://localhost:27017",
+    "mongodb+srv://shweta:UFkSazwQonRwSH4X@cluster0.bopuu.mongodb.net/test?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => console.log("MongoDB connected successfully "))
