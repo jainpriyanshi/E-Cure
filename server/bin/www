@@ -24,9 +24,10 @@ io.on('connection', function(socket){
        msg: chat.msg
      });
      newmsg.save();
-     io.socket.emit("change_data");
+     io.sockets.emit("change_data");
   });
 });
-
+console.log("App listening on port");
+console.log(PORT);
 io.attach(server);
 server.listen(PORT);

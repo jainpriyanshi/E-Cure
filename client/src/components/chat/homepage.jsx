@@ -85,7 +85,7 @@ class homepage extends Component {
                             <div>
                                 {(arr.sender_id===this.props.auth.user.id)?
                                 <div class="card" style={{backgroundColor:"grey" , color: "white" , width: "50%" , marginLeft: "50%"}}>
-                                    <p> {arr.receiver}</p>
+                                    <p> {arr.sender}</p>
                                     <p> {arr.msg} </p>    
                                 </div>: null
                                 }

@@ -23,11 +23,13 @@ var newchat = {
     user_id : req.body.user1_id
 }
 Patient.findOneAndUpdate({_id: req.body.user2_id} , {$addToSet: {newchat: newchat } } )
-.then(user => console.log(user));
+.then(doc => {
    newchat = {
     user_name: req.body.user2_name,
     user_id : req.body.user2_id
-}
-Doctor.findOneAndUpdate({_id: req.body.user1_id} , {$addToSet: {newchat: newchat } } );
+    }
+Doctor.findOneAndUpdate({_id: req.body.user1_id} , {$addToSet: {newchat: newchat } } )
+.then(docs => {res.send("done")});
+});
 });
 module.exports = router;
