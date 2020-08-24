@@ -60,7 +60,7 @@ const [open, setOpen] = React.useState(false);
     <Card className={classes.root} variant="outlined" onClick={handleClickOpen}>
       <CardContent className={classes.CardContent}>
         <Typography variant="h5" component="h2">
-            {props.underApplication && props.underApplication.patient_id}
+            {props.underApplication && props.underApplication.doctor_name}
         </Typography>
         <Typography variant="body2" component="p">
         {props.underApplication && props.underApplication.ailment}

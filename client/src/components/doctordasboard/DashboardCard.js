@@ -63,8 +63,8 @@ const [appId, setAppId] = React.useState('');
         const response = await fetch('/doctor/changeStatus', {
           method: 'POST',
           headers: {
-            // 'Content-Type': 'application/json',
-            "x-access-token": localStorage.getItem('jwtToken')
+             'Content-Type': 'application/json',
+            //"x-access-token": localStorage.getItem('jwtToken')
             // "Authorization": localStorage.getItem("accessToken")
           },
           body: JSON.stringify({
@@ -91,11 +91,6 @@ const [appId, setAppId] = React.useState('');
   }, [props.underApplication._id])
 
   const handleAccept = () => {
-    console.log("satyam",props.underApplication._id);
-    let sat=props.underApplication._id;
-    let she=1;
-    console.log(sat);
-    console.log(she);
     const SendingRequest = async () => {
       try{
         const response = await fetch('http://localhost:3000/doctor/changeStatus', {
