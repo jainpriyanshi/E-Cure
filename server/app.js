@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var doctor = require('./routes/doctor');
 var image = require('./routes/image')
-var chat = require('./routes/chat');
+var chat = require('./routes/chat')
 var patient = require('./routes/patient');
 var app = express();
 var mongoose = require("mongoose");
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, '/build')));
 
 mongoose
   .connect(
-    "mongodb://localhost:27017",
+    "mongodb+srv://shweta:UFkSazwQonRwSH4X@cluster0.bopuu.mongodb.net/test?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => console.log("MongoDB connected successfully "))

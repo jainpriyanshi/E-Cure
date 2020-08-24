@@ -333,23 +333,7 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
 
     router.get("/getSpecializationAndName", (req, res) => {
       doctors.find({}).then(doctor => {
-        var response = {};
-         for(var i = 0; i < doctor.length; i++)
-         {
-           var specialization = doctor[i].specialization;
-           if(specialization in response)
-           {
-             response[specialization].push([doctor[i]._id,doctor[i].name]);
-           }
-           else
-           {
-             response[specialization] = [];
-             response[specialization].push([doctor[i]._id,doctor[i].name]);
-           }
-           
-         }
-         console.log(response);
-         res.json({ success: true, response })
+        res.send(doctor)
       })
       .catch(err => {
           res.json({success: false})
