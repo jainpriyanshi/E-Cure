@@ -339,12 +339,12 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
            var specialization = doctor[i].specialization;
            if(specialization in response)
            {
-             response[specialization].push(['shweta',doctor[i].name]);
+             response[specialization].push([doctor[i]._id,doctor[i].name]);
            }
            else
            {
              response[specialization] = [];
-             response[specialization].push(['shweta',doctor[i].name]);
+             response[specialization].push([doctor[i]._id,doctor[i].name]);
            }
            
          }
