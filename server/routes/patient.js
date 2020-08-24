@@ -139,15 +139,16 @@ const { route } = require("./doctor");
           phone: req.body.phone
         });
         console.log("hey");
-            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp]);
-            
+        const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp]);
+        process.cwd()
+        console.log(pythonProcess);
           bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
             newUser
               .save()
-              .then(user => res.json(user) , 
+              .then(user => res.json(user) , console.log(user) ,
                 pythonProcess.stdout.on('data', (data) => {
                 console.log(data);
                 })
