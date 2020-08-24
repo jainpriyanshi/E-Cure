@@ -23,6 +23,8 @@ import PrivateNavbar from './components/privateroutes/PrivateNavbar'
 
 import Map from './components/landing/map';
 
+import Chat from './components/chat/homepage'
+import List from "./components/doctorslist"
 
 if (localStorage.jwtToken) {
 
@@ -66,6 +68,8 @@ class App extends Component {
             <Route exact path="/" render={(props) => <Map {...props} state={this.state}/> } />
             <Route exact path="/patient/register" component={PatientRegister} />
             <Route exact path="/patient/verify" component={PatientVerify} />
+            <Route exact path="/chat" component={Chat} />
+            <Route exact path="/list" component={List} />
             <Route exact path="/patient/login" component={PatientLogin} />
             <Route exact path="/patient/dashboard" component={PatientDashboard} />
             <Route exact path="/patient/getAppointment" component={PatientGetAppointment} />

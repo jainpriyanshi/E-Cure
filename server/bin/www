@@ -24,7 +24,7 @@ io.on('connection', function(socket){
        msg: chat.msg
      });
      newmsg.save();
-     io.sockets.emit("change_data");
+     io.socket.emit("change_data");
   });
 });
 
