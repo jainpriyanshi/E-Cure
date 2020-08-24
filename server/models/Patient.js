@@ -39,6 +39,16 @@ const PatientSchema = new Schema({
         comment : {
             type: String
         },
+    }],
+    newchat: [{
+        user_name : {
+            type: String,
+            required: true,
+        },
+        user_id: {
+            type: String,
+            required: true,
+        }
     }]
 });
 

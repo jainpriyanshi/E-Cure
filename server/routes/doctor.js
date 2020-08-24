@@ -144,7 +144,7 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               address:req.body.address,
               password: req.body.password,
               otp: otp.toString(),
-              isVerified: false,
+              isVerified: true,
               reg_num: req.body.reg_num,
               phone: req.body.phone,
               specialization: req.body.specialization,
@@ -157,19 +157,14 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
               sat: req.body.sat,
               sun: req.body.sun,
             });
-            console.log("hey");
-            const pythonProcess = spawn('python3',["./routes/login.py", req.body.email , otp ]);
-            
+           
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newDoctor.password, salt, (err, hash) => {
                 if (err) throw err;
                 newDoctor.password = hash;
                 newDoctor
                   .save()
-                  .then(doctor => res.json(doctor),
-                  pythonProcess.stdout.on('data', (data) => {
-                    console.log(data);
-                    }))
+                  .then(doctor => res.json(doctor))
                   .catch(err => console.log(err));
               });
             });

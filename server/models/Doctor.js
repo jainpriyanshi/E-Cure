@@ -64,12 +64,22 @@ const DoctorSchema = new Schema({
     },
     sat: {
         type: Boolean, 
-        default:true
+        default: false,
     },
     sun: {
         type: Boolean, 
-        default:true
-    }   
+        default: false
+    } ,
+    newchat: [{
+        user_name : {
+            type: String,
+            required: true,
+        },
+        user_id: {
+            type: String,
+            required: true,
+        }
+    }]
 });
 
 module.exports = Doctor = mongoose.model("doctors", DoctorSchema);
