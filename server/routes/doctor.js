@@ -335,6 +335,31 @@ const ValidateDoctorRegisterInput = function validateDoctorRegisterInput(data) {
         res.json({success: false})
       })
     })
+
+    router.get("/getSpecializationAndName", (req, res) => {
+      doctors.find({}).then(doctor => {
+        var response = {};
+         for(var i = 0; i < doctor.length; i++)
+         {
+           var specialization = doctor[i].specialization;
+           if(specialization in response)
+           {
+             response[specialization].push(['shweta',doctor[i].name]);
+           }
+           else
+           {
+             response[specialization] = [];
+             response[specialization].push(['shweta',doctor[i].name]);
+           }
+           
+         }
+         console.log(response);
+         res.json({ success: true, response })
+      })
+      .catch(err => {
+          res.json({success: false})
+      })
+    });
     
     module.exports = router;
 
