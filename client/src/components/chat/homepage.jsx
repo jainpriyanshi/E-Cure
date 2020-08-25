@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import {Link} from "react-router-dom"; 
 import axios from 'axios'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import io from "socket.io-client";
-import bg from "../images/download.jpeg"
-const socket = io.connect("http://localhost:3000");
+import bg from "../images/bg.png"
+const socket = io.connect("https://summer20-sps-83.appspot.com/");
 class homepage extends Component {
     constructor (props) {
         super(props);
@@ -56,8 +57,12 @@ class homepage extends Component {
             console.log(user);
             return(
                 <div key={user.user_id} user={user} onClick={(event)=> {this.handleChangeUser(event,user)}}>
-                    <p style={{fontSize:"17px"}}> {user.user_name} </p>
-                    <hr />
+                    {user.user_id===this.state.current_id?
+                    <p style={{fontSize:"17px" , margin: "7px 25px" , color: "green"}}> {user.user_name} </p>:
+                    <p style={{fontSize:"17px" , margin: "7px 25px"}}> {user.user_name} </p>
+                    }
+                    
+                    <hr style={{backgroundColor: "green"}} />
                 </div>
             )
         })
@@ -65,7 +70,7 @@ class homepage extends Component {
     render() {
         return (
             <div class="row">
-                <div class="col-lg-3 card" style={{marginTop: "66px" , backgroundColor: "#C0C0C0" , height: "510px" , overflowY: "scroll"}}>
+                <div class="col-lg-3 card" style={{marginTop: "66px" , height: "510px" , overflowY: "scroll"}}>
                   {this.state.chatlist.length>0?
                   
                     this.fetch_user() : null
@@ -73,26 +78,34 @@ class homepage extends Component {
                 </div>
                 <div class="col-lg-9" style={{marginTop: "60px"}}>
                    {(this.state.current_id==="")? 
-                   <div>
-                       <bg/>
+                   <div class="container mx-auto">
+                       <div class="center" style={{margin: "30px"}}>
+                        <img src={bg} />
+                        <br />
+                          <Link to="/list">
+                          <button>
+                           <p style={{margin: "10px"}}>  Start a Chat </p> 
+                          </button>
+                          </Link>
+                        </div>
                     </div>
                     :
                     <div>
-                        <div class="card" style={{backgroundColor: "grey" , color: "white",height: "35px"}}> {this.state.current_user} </div>
+                        <div  style={{ margin:"20px 0px 20px 20px"}}> {this.state.current_user} </div>
                         <div class=" card" style={{  height: "380px" , overflowY: "scroll"}}>
                        
                         {this.state.chats.map(arr=> (
                             <div>
-                                {(arr.sender_id===this.props.auth.user.id)?
-                                <div class="card" style={{backgroundColor:"grey" , color: "white" , width: "50%" , marginLeft: "50%"}}>
-                                    <p> {arr.receiver}</p>
-                                    <p> {arr.msg} </p>    
+                                {(arr.sender_id===this.props.auth.user.id && arr.receiver_id===this.state.current_id)?
+                                <div class="card" style={{ width: "40%" , marginLeft: "60%" , color: "black" ,opacity: "0.5"}}>
+                                    <p style={{marginLeft: "10px"}}> {arr.sender}</p>
+                                    <p style={{marginLeft: "20px"}}> {arr.msg} </p>    
                                 </div>: null
                                 }
-                                {(arr.receiver_id===this.props.auth.user.id)?
-                                <div class="card"  style={{width: "50%"}}>
-                                    <p> {arr.sender}</p>
-                                    <p> {arr.msg} </p>    
+                                {(arr.receiver_id===this.props.auth.user.id && arr.sender_id===this.state.current_id)?
+                                <div class="card"  style={{backgroundColor:"green" , color: "white" , width: "40%", opacity: "0.5"}}>
+                                    <p style={{marginLeft: "10px"}}> {arr.sender}</p>
+                                    <p style={{marginLeft: "20px"}}> {arr.msg} </p>    
                                 </div>: null
                                 }
                             </div>

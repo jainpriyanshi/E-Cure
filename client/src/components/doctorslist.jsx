@@ -25,7 +25,7 @@ class doctorslist extends Component {
               }
               console.log(msg);
               axios.post('/chat/createchat',msg)
-              .then(res=> console.log(res))
+              .then(res=> this.props.history.push('/chat'))
               .catch(err => console.log(err));
           }
     render() {

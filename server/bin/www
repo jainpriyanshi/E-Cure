@@ -27,6 +27,7 @@ io.on('connection', function(socket){
      io.sockets.emit("change_data");
   });
 });
-
+console.log("App listening on port");
+console.log(PORT);
 io.attach(server);
 server.listen(PORT);

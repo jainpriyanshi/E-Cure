@@ -12,8 +12,13 @@ router.get('/getchat', function(req, res){
     })
   });
 router.get('/getuser/:id', function(req, res){
-    Patient.findOne({_id: req.params.id}).then(docs => {
-        res.send(docs.newchat);                                                                                                             
+    Doctor.findOne({_id: req.params.id}).then(docs => {
+        if(docs)
+        { res.send(docs.newchat);   }
+        Patient.findOne({_id: req.params.id}).then(docs => {
+          
+         res.send(docs.newchat);  
+        })                                                                                                    
 })
 });
 router.post("/createchat" , (req,res) => {
@@ -23,11 +28,13 @@ var newchat = {
     user_id : req.body.user1_id
 }
 Patient.findOneAndUpdate({_id: req.body.user2_id} , {$addToSet: {newchat: newchat } } )
-.then(user => console.log(user));
+.then(doc => {
    newchat = {
     user_name: req.body.user2_name,
     user_id : req.body.user2_id
-}
-Doctor.findOneAndUpdate({_id: req.body.user1_id} , {$addToSet: {newchat: newchat } } );
+    }
+Doctor.findOneAndUpdate({_id: req.body.user1_id} , {$addToSet: {newchat: newchat } } )
+.then(docs => {res.send("done")});
+});
 });
 module.exports = router;
