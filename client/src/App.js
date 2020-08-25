@@ -18,6 +18,7 @@ import DoctorLogin from "./components/doctorauth/login";
 import DoctorVerify from './components/doctorauth/verify';
 import DoctorDashboard from './components/doctordasboard/Dashboard';
 import UploadPrescription from './components/doctordasboard/UploadPrescription';
+import ViewPrescriptions from './components/doctordasboard/Prescriptions';
 
 import Navbar from './components/navbar/navbar';
 import PrivateNavbar from './components/privateroutes/PrivateNavbar'
@@ -79,6 +80,7 @@ class App extends Component {
             <Route exact path="/doctor/login" component={DoctorLogin} />
             <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
             <Route exact path="/doctor/dashboard/upload-pres" component={UploadPrescription} />
+            <Route exact path="/doctor/viewPrescriptions" component={ViewPrescriptions} />
           </div>
         </Router>
       </Provider>

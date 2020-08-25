@@ -152,6 +152,9 @@ const Application = (props) => {
                 <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
                 Get Appointment
                 </Button>
+                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/doctor/viewPrescriptions')}}>
+                View Prescriptions
+                </Button>
                 <Grid container className={classes.main}>
                     <Grid item xs={12} lg={4} >
                       <React.Fragment>

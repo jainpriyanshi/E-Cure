@@ -71,6 +71,7 @@ const UploadPrescription = () => {
   const [selectedPatient, setSelectedPatient] = useState("");
   const [selectedFile, setSelectedFile] = useState();
 
+
   const onFileUpload = (e) => { 
      e.preventDefault();
     // Create an object of formData 
@@ -95,7 +96,13 @@ const UploadPrescription = () => {
       url: '/uploadPrescription',
       headers: {'x-access-token': localStorage.getItem('jwtToken')},
       data: formData
-    }).then(console.log).catch(console.log)
+    }).then( item => {
+        console.log()
+        history.push('/doctor/dashboard');
+      }
+      )
+      .catch(console.log)
+
   };
   
   
@@ -141,7 +148,7 @@ const UploadPrescription = () => {
     
     const sendingRequest = async () => {
       try{
-        const response = await fetch(`/doctor/getSpecialization`, {
+        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
@@ -157,7 +164,7 @@ const UploadPrescription = () => {
 
     const sendingRequest2 = async () => {
       try{
-        const response = await fetch(`/doctor/getSpecialization`, {
+        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
@@ -187,7 +194,7 @@ const UploadPrescription = () => {
 
     const sendingRequest3 = async () => {
       try{
-        const response = await fetch(`/doctor/getDays`, {
+        const response = await fetch(`http://localhost:3000/doctor/getDays`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
@@ -274,7 +281,7 @@ const UploadPrescription = () => {
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={speciality}
+                value={selectedPatient}
                 onChange={handleChange}
                 >
                 { patients.map( (item, i) => {
