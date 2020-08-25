@@ -146,8 +146,11 @@ const Application = (props) => {
       
         <div className={classes.root}>
                 <Toolbar/>
-                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/chat')}}>
-                Chat
+                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/doctor/dashboard/upload-pres')}}>
+                Write a Prescription
+                </Button>
+                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
+                Get Appointment
                 </Button>
                 <Grid container className={classes.main}>
                     <Grid item xs={12} lg={4} >
