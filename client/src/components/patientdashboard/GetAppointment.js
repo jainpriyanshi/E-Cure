@@ -69,7 +69,7 @@ const GetAppointment = () => {
     
     const sendingRequest = async () => {
       try{
-        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
+        const response = await fetch(`/doctor/getSpecialization`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
@@ -85,7 +85,7 @@ const GetAppointment = () => {
 
     const sendingRequest2 = async () => {
       try{
-        const response = await fetch(`http://localhost:3000/doctor/getSpecialization`, {
+        const response = await fetch(`/doctor/getSpecialization`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
@@ -115,7 +115,7 @@ const GetAppointment = () => {
 
     const sendingRequest3 = async () => {
       try{
-        const response = await fetch(`http://localhost:3000/doctor/getDays`, {
+        const response = await fetch(`/doctor/getDays`, {
           // headers: {
             // "Authorization": localStorage.getItem("accessToken")
           // }
