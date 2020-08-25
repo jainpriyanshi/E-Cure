@@ -93,7 +93,7 @@ const [appId, setAppId] = React.useState('');
   const handleAccept = () => {
     const SendingRequest = async () => {
       try{
-        const response = await fetch('http://localhost:3000/doctor/changeStatus', {
+        const response = await fetch('/doctor/changeStatus', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

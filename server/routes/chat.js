@@ -12,8 +12,13 @@ router.get('/getchat', function(req, res){
     })
   });
 router.get('/getuser/:id', function(req, res){
-    Patient.findOne({_id: req.params.id}).then(docs => {
-        res.send(docs.newchat);                                                                                                             
+    Doctor.findOne({_id: req.params.id}).then(docs => {
+        if(docs)
+        { res.send(docs.newchat);   }
+        Patient.findOne({_id: req.params.id}).then(docs => {
+          
+         res.send(docs.newchat);  
+        })                                                                                                    
 })
 });
 router.post("/createchat" , (req,res) => {
