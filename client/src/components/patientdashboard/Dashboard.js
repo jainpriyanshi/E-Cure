@@ -70,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
     Button: {
         // padding: 100
         margin: 20,
-        backgroundColor: '#008000'
+        backgroundColor: 'white',
+        border: "1px solid #008000"
         // backgroundColor: '#ffffff'
     }
   }));
@@ -146,6 +147,9 @@ const Application = (props) => {
                 <Toolbar/>
                 <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/patient/getAppointment')}}>
                 Get Appointment
+                </Button>
+                <Button variant="contained" className={classes.Button} onClick={()=>{history.push('/chat')}}>
+                Chat
                 </Button>
                 <Grid container className={classes.main}>
                     <Grid item xs={12} lg={4} >

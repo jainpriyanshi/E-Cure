@@ -8,7 +8,14 @@ import classnames from "classnames";
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
-
+var sectionStyle = {
+  height: "170vh",
+ background: `url(${process.env.PUBLIC_URL}/bg.jpg)` ,
+ backgroundPosition: 'center',
+ backgroundSize: 'cover',
+ backgroundRepeat: 'no-repeat',
+ backgroundAttachment: "static",
+};
 
 class RegisterDoctor extends Component {
   constructor() {
@@ -81,12 +88,13 @@ class RegisterDoctor extends Component {
     const { errors } = this.state;
 
     return (
-      <div >
+      <div style={sectionStyle}>
+        <br />
         <div class="container">
           <div class="row">
-          <div class="col-md-6 col-sm-12">  
+          <div class="col-lg-6 col-sm-12 container">  
           </div>
-            <div class="col-md-6 col-sm-12">  
+            <div class="col-lg-6 col-sm-12 container">  
               <Box width ="100%" height="100%"  item xs={12} sm={8} md={5} component={Paper} elevation={6} className="card" >
                 <div class="conainer">
                 <div >
@@ -102,12 +110,13 @@ class RegisterDoctor extends Component {
                 value={this.state.name}
                 error={errors.name}
                 id="name"
+                placeholder="name"
                 type="text"
                 className={classnames("", {
                   invalid: errors.name
                 })}
               />
-              <label htmlFor="name">Name</label>
+              
               <span className="red-text">{errors.name}</span>
                 </div>
 
@@ -117,12 +126,13 @@ class RegisterDoctor extends Component {
                   value={this.state.email}
                   error={errors.email}
                   id="email"
+                  placeholder="email"
                   type="email"
                   className={classnames("", {
                     invalid: errors.email
                   })}
                 />
-                <label htmlFor="email">Email</label>
+               
                 <span className="red-text">{errors.email}</span>
                 </div>
 
@@ -132,12 +142,13 @@ class RegisterDoctor extends Component {
                   value={this.state.address}
                   error={errors.address}
                   id="address"
+                  placeholder="address"
                   type="text"
                   className={classnames("", {
                     invalid: errors.address
                   })}
                 />
-                <label htmlFor="adress">Address</label>
+               
                 <span className="red-text">{errors.address}</span>
                 </div>
 
@@ -148,13 +159,14 @@ class RegisterDoctor extends Component {
                   onChange={this.onChange}
                   value={this.state.reg_num}
                   error={errors.reg_num}
+                  placeholder="registration number"
                   id="reg_num"
                   type="text"
                   className={classnames("", {
                     invalid: errors.reg_num
                   })}
                 />
-                <label htmlFor="reg_num">Registration Number</label>
+                
                 <span className="red-text">{errors.reg_num}</span>
                 </div>
 
@@ -165,12 +177,13 @@ class RegisterDoctor extends Component {
                   value={this.state.hospital_name}
                   error={errors.hospital_name}
                   id="hospital_name"
+                  placeholder="Hospital name"
                   type="text"
                   className={classnames("", {
                     invalid: errors.hospital_name
                   })}
                 />
-                <label htmlFor="hospital_name">Hospital Name</label>
+               
                 <span className="red-text">{errors.hospital_name}</span>
                 </div>
 
@@ -183,12 +196,13 @@ class RegisterDoctor extends Component {
                   value={this.state.specialization}
                   error={errors.specialization}
                   id="specialization"
+                  placeholder="specialization"
                   type="text"
                   className={classnames("", {
                     invalid: errors.specialization
                   })}
                 />
-                <label htmlFor="specialization">specialization</label>
+              
                 <span className="red-text">{errors.specialization}</span>
                 </div>
 
@@ -201,12 +215,13 @@ class RegisterDoctor extends Component {
                   value={this.state.phone}
                   error={errors.phone}
                   id="phone"
+                  placeholder="Contact Number"
                   type="text"
                   className={classnames("", {
                     invalid: errors.phone
                   })}
                 />
-                <label htmlFor="phone">Contact Number</label>
+               
                 <span className="red-text">{errors.phone}</span>
                 </div>
 
@@ -218,12 +233,13 @@ class RegisterDoctor extends Component {
                   value={this.state.password}
                   error={errors.password}
                   id="password"
+                  placeholder="Password"
                   type="password"
                   className={classnames("", {
                     invalid: errors.password
                   })}
                 />
-                <label htmlFor="password">Password</label>
+                
                 <span className="red-text">{errors.password}</span>
                 </div>
 
@@ -232,13 +248,14 @@ class RegisterDoctor extends Component {
                   onChange={this.onChange}
                   value={this.state.password2}
                   error={errors.password2}
+                  placeholder="Confirm Password"
                   id="password2"
                   type="password"
                   className={classnames("", {
                     invalid: errors.password2
                   })}
                 />
-                <label htmlFor="password2">Confirm Password</label>
+                
                 <span className="red-text">{errors.password2}</span>
               </div>
 

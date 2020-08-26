@@ -8,6 +8,14 @@ import classnames from "classnames";
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
+var sectionStyle = {
+  height: "120vh",
+ background: `url(${process.env.PUBLIC_URL}/bg.jpg)` ,
+ backgroundPosition: 'center',
+ backgroundSize: 'cover',
+ backgroundRepeat: 'no-repeat',
+ backgroundAttachment: "static",
+};
 
 
 class RegisterPatient extends Component {
@@ -58,12 +66,12 @@ class RegisterPatient extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
+      <div style={sectionStyle}>
         <br></br>
         
       <div class="container">
           <div class="row">
-          <div class="col-md-6 col-sm-12 my">
+          <div class="col-md-6 col-sm-12 ">
               </div>
               <div class="col-md-6 col-sm-12">
               <Box width ="100%" height="100%"  item xs={12} sm={8} md={5} component={Paper} elevation={6} className="card" >
@@ -80,12 +88,13 @@ class RegisterPatient extends Component {
                   value={this.state.name}
                   error={errors.name}
                   id="name"
+                  placeholder="name"
                   type="text"
                   className={classnames("", {
                     invalid: errors.name
                   })}
                 />
-                <label htmlFor="name">Name</label>
+               
                 <span className="red-text">{errors.name}</span>
                   </div>
 
@@ -94,13 +103,14 @@ class RegisterPatient extends Component {
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
+                  placeholder="email"
                   id="email"
                   type="email"
                   className={classnames("", {
                     invalid: errors.email
                   })}
                 />
-                <label htmlFor="email">Email</label>
+                
                 <span className="red-text">{errors.email}</span>
                 </div>
 
@@ -110,13 +120,14 @@ class RegisterPatient extends Component {
                   onChange={this.onChange}
                   value={this.state.phone}
                   error={errors.phone}
+                  placeholder="Contact Number"
                   id="phone"
                   type="text"
                   className={classnames("", {
                     invalid: errors.phone
                   })}
                 />
-                <label htmlFor="phone">Phone</label>
+               
                 <span className="red-text">{errors.phone}</span>
                   </div>
 
@@ -127,12 +138,13 @@ class RegisterPatient extends Component {
                   value={this.state.password}
                   error={errors.password}
                   id="password"
+                  placeholder="Password"
                   type="password"
                   className={classnames("", {
                     invalid: errors.password
                   })}
                 />
-                <label htmlFor="password">Password</label>
+                
                 <span className="red-text">{errors.password}</span>
                 </div>
 
@@ -143,11 +155,12 @@ class RegisterPatient extends Component {
                   error={errors.password2}
                   id="password2"
                   type="password"
+                  placeholder="confirm password"
                   className={classnames("", {
                     invalid: errors.password2
                   })}
                 />
-                <label htmlFor="password2">Confirm Password</label>
+                
                 <span className="red-text">{errors.password2}</span>
               </div>
 

@@ -1,4 +1,6 @@
 runtime: nodejs12
+network:
+    session_affinity: true
 env_variables:
   EMAIL: "noreplymailfortest@gmail.com" 
   PASS: "donotreply123"
